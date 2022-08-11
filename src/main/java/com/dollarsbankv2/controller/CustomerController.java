@@ -22,7 +22,6 @@ public class CustomerController extends HttpServlet {
    
     public CustomerController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
@@ -52,8 +51,18 @@ public class CustomerController extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		Long phone = Long.parseLong(request.getParameter("phone"));
+		String password = request.getParameter("pw");
+		
+		Customer newCust = new Customer(0, name, address, phone, password, 0, false, 0);
+		Customer cust = service.createCustomer(newCust);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("principal", cust);
+		
+		response.sendRedirect("create_checking.jsp");
 	}
 
 }

@@ -24,6 +24,10 @@
             
             <input type="submit" value="Login" class="btn btn-primary"> 
         </form>
+        <br><br><br>
+        <h3>Don't have an account?</h3>
+        <br><br>
+        <a href="create_account.jsp">Sign up!</a>
     </div>
 </body>
 </html>
