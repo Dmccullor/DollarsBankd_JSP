@@ -18,8 +18,13 @@
 	
 		<%
 			Customer principal = (Customer)session.getAttribute("principal");
-	
+		
+		if(principal == null) {
+			response.sendRedirect("index.jsp");
+		}
+		else {
 			out.println("Welcome " + principal.getName());
+		}
 		%>
 		<br><br>
 		<a href="showinfo.jsp">Show Your Info</a>

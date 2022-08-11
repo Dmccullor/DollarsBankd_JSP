@@ -21,27 +21,32 @@
 		</div>
 		<%
 		Customer principal = (Customer)session.getAttribute("principal");
-		int user_id = principal.getId();
-		int i = 0;
-		TransactionService transactionService = TransactionService.getInstance();
 		
-		List<Transaction> transactionList = transactionService.findTransactionsByUserId(user_id);
-		
-		Collections.reverse(transactionList);
-		
-		while(transactionList.size() >= (i + 1)) {
+		if(principal == null) {
+			response.sendRedirect("index.jsp");
+		}
+		else {
+			int user_id = principal.getId();
+			int i = 0;
+			TransactionService transactionService = TransactionService.getInstance();
 			
-			if(i <= 4) {
-			out.println(transactionList.get(i));
+			List<Transaction> transactionList = transactionService.findTransactionsByUserId(user_id);
 			
-			out.println("<br>");
+			Collections.reverse(transactionList);
 			
-			i++;
-			} else {
-				i++;
+			while(transactionList.size() >= (i + 1)) {
+				
+				if(i <= 4) {
+					out.println(transactionList.get(i));
+				
+					out.println("<br>");
+				
+					i++;
+				} else {
+					i++;
+				}
 			}
 		}
-		
 		%>
 		<br>
 		<a href="MainMenu.jsp">Back</a>

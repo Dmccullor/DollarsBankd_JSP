@@ -19,7 +19,11 @@
 		<form action="WithdrawController" method="post">
 			<%
 			Customer principal = (Customer)session.getAttribute("principal");
-			if(principal.getHas_savings()) {
+			
+			if(principal == null) {
+				response.sendRedirect("index.jsp");
+			}
+			else if(principal.getHas_savings()) {
 				out.println("<div class='form-group'>");
 				out.println("<label for='acct-type'>To which account would you like to withdraw?</label>");
 				out.println("<br>");
@@ -29,6 +33,7 @@
 				out.println("<label for='savings'>Savings</label>");
 				out.println("</div>");
 			}
+			else {}
 			%>
 			
 			<div class="form-group">

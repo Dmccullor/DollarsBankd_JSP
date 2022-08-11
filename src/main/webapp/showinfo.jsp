@@ -19,30 +19,38 @@
 		<%
 			Customer principal = (Customer)session.getAttribute("principal");
 			
-			out.println("<b>Customer ID: </b>" + principal.getId() + "<br>");
-			out.println("<b>Name: </b>" + principal.getName() + "<br>");
-			out.println("<b>Address: </b>" + principal.getAddress() + "<br>");
-			out.println("<b>Phone #: </b>" + principal.getPhone() + "<br>");
-			out.println("<b>Checking Account ID: </b>" + principal.getChecking_id() + "<br>");
-			
-			if(principal.getHas_savings() == true) {
-				out.println("<b>Savings Account ID: </b>" + principal.getSavings_id() + "<br>");
+			if(principal == null) {
+				response.sendRedirect("index.jsp");
 			}
+			else {
+				out.println("<b>Customer ID: </b>" + principal.getId() + "<br>");
+				out.println("<b>Name: </b>" + principal.getName() + "<br>");
+				out.println("<b>Address: </b>" + principal.getAddress() + "<br>");
+				out.println("<b>Phone #: </b>" + principal.getPhone() + "<br>");
+				out.println("<b>Checking Account ID: </b>" + principal.getChecking_id() + "<br>");
+				
+				if(principal.getHas_savings() == true) {
+					out.println("<b>Savings Account ID: </b>" + principal.getSavings_id() + "<br>");
+				}
 			
-		%>
-		<br>
-		<h2>Balance</h2>
-
-		<%
-			CheckingService checkingService = CheckingService.getInstance();
-			SavingsService savingsService = SavingsService.getInstance();
+		
+				out.println("<br>");
+				out.println("<h2>Balance</h2>");
+	
 			
-			double checkingBalance = checkingService.getAccountByUserId(principal.getId()).getAmount();
-			out.println("<b>Checking:</b> $" + checkingBalance + "<br>");
+				CheckingService checkingService = CheckingService.getInstance();
+				SavingsService savingsService = SavingsService.getInstance();
+				
+	
+				double checkingBalance = checkingService.getAccountByUserId(principal.getId()).getAmount();
+				out.println("<b>Checking:</b> $" + checkingBalance + "<br>");
+				
+				
+				if(principal.getHas_savings() == true) {
+					double savingsBalance = savingsService.getAccountByUserId(principal.getId()).getAmount();
+					out.println("<b>Savings:</b> $" + savingsBalance);
+				}
 			
-			if(principal.getHas_savings() == true) {
-				double savingsBalance = savingsService.getAccountByUserId(principal.getId()).getAmount();
-				out.println("<b>Savings:</b> $" + savingsBalance);
 			}
 		%>
 		<br>

@@ -18,7 +18,11 @@
 		<br>
 		<%
 		Customer principal = (Customer)session.getAttribute("principal");
-		if(principal.getHas_savings()) {
+		
+		if(principal == null) {
+			response.sendRedirect("index.jsp");
+		}
+		else if(principal.getHas_savings()) {
 			out.println("<p style='color:red'>You already have a savings account.");
 		}
 		else {

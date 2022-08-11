@@ -10,6 +10,9 @@
                 <p class="lead">Please login below.</p>
             </div>
         </div>
+        <%
+        session.setAttribute("principal", null);
+        %>
         <!-- make sure to set both inputs with required attribute -->
         <form action="CustomerController" method="get">
             <div class="form-group">
