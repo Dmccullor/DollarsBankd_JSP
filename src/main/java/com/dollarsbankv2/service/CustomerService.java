@@ -10,6 +10,19 @@ import com.dollarsbankv2.model.Customer;
 
 public class CustomerService {
 	
+	private static CustomerService single_instance = null;
+	
+	private CustomerService() {};
+	
+	public static CustomerService getInstance() {
+		
+		if(single_instance == null) {
+			single_instance = new CustomerService();
+		}
+		
+		return single_instance;
+	}
+	
 	private static int idCounter = 1;
 	public static List<Customer> customerList = new ArrayList<Customer>();
 	

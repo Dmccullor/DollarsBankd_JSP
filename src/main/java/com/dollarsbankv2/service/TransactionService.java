@@ -18,12 +18,25 @@ import com.dollarsbankv2.model.Transaction.Type;
 
 public class TransactionService {
 	
+	private static TransactionService single_instance = null;
+	
+	private TransactionService() {};
+	
+	public static TransactionService getInstance() {
+		
+		if(single_instance == null) {
+			single_instance = new TransactionService();
+		}
+		
+		return single_instance;
+	}
+	
 	private static int idCounter = 1;
 	private static List<Transaction> transactionList = new ArrayList<Transaction>();
 	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 	
-	private static CheckingService checkingService = new CheckingService();
-	private static SavingsService savingsService = new SavingsService();
+	private static CheckingService checkingService = CheckingService.getInstance();
+	private static SavingsService savingsService = SavingsService.getInstance();
 	
 	static {
 		transactionList.add(new Transaction(idCounter++, LocalDateTime.now(), Type.DEPOSIT, ToAcct.CHECKING, 1000.00, 1, 1, 0));
@@ -66,8 +79,6 @@ public class TransactionService {
 			Checking currentAccount = (Checking) checkingService.getAccountByUserId(tran.getUser_id());
 			
 			currentAccount.setAmount(currentAccount.getAmount() + tran.getAmount());
-			
-			checkingService.updateAccount(currentAccount);
 		}
 		
 		else if(tran.getType() == Type.DEPOSIT && tran.getToAcct() == ToAcct.SAVINGS) {
@@ -75,8 +86,6 @@ public class TransactionService {
 			Savings currentAccount = (Savings) savingsService.getAccountByUserId(tran.getUser_id());
 			
 			currentAccount.setAmount(currentAccount.getAmount() + tran.getAmount());
-			
-			savingsService.updateAccount(currentAccount);
 		}
 		
 		else if(tran.getType() == Type.WITHDRAWAL && tran.getToAcct() == ToAcct.CHECKING) {
@@ -84,8 +93,6 @@ public class TransactionService {
 			Checking currentAccount = (Checking) checkingService.getAccountByUserId(tran.getUser_id());
 			
 			currentAccount.setAmount(currentAccount.getAmount() - tran.getAmount());
-			
-			checkingService.updateAccount(currentAccount);
 		}
 		
 		else if(tran.getType() == Type.WITHDRAWAL && tran.getToAcct() == ToAcct.SAVINGS) {
@@ -93,8 +100,6 @@ public class TransactionService {
 			Savings currentAccount = (Savings) savingsService.getAccountByUserId(tran.getUser_id());
 			
 			currentAccount.setAmount(currentAccount.getAmount() - tran.getAmount());
-			
-			savingsService.updateAccount(currentAccount);
 		}
 		
 		else if(tran.getType() == Type.TRANSFER && tran.getToAcct() == ToAcct.CHECKING) {
@@ -106,10 +111,6 @@ public class TransactionService {
 			currentCheckingAccount.setAmount(currentCheckingAccount.getAmount() + tran.getAmount());
 			
 			currentSavingsAccount.setAmount(currentSavingsAccount.getAmount() - tran.getAmount());
-			
-			checkingService.updateAccount(currentCheckingAccount);
-			
-			savingsService.updateAccount(currentSavingsAccount);
 		}
 		
 		else {
@@ -121,10 +122,6 @@ public class TransactionService {
 			currentCheckingAccount.setAmount(currentCheckingAccount.getAmount() - tran.getAmount());
 			
 			currentSavingsAccount.setAmount(currentSavingsAccount.getAmount() + tran.getAmount());
-			
-			checkingService.updateAccount(currentCheckingAccount);
-			
-			savingsService.updateAccount(currentSavingsAccount);
 		}
 		
 		return false;

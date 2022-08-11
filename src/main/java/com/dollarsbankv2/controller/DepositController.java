@@ -22,12 +22,11 @@ import com.dollarsbankv2.service.TransactionService;
 public class DepositController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private TransactionService transactionService = new TransactionService();
+	private TransactionService transactionService = TransactionService.getInstance();
        
 
     public DepositController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
@@ -47,9 +46,12 @@ public class DepositController extends HttpServlet {
 		ToAcct toAcct = ToAcct.CHECKING;
 		int savings_id = principal.getSavings_id();
 		
+		if(principal.getHas_savings() && request.getParameter("acct-type").equals("savings")) {
+			toAcct = ToAcct.SAVINGS;
+		}
+		
 		if(amount <= 0) {
-			request.setAttribute("error", "Amount must be greater than 0");
-			response.sendRedirect("deposit.jsp");
+			response.sendRedirect("amountzero.jsp");
 		}
 		else {
 			Transaction tran = new Transaction(0, LocalDateTime.now(), type, toAcct, amount, user_id, checking_id, savings_id);
@@ -62,10 +64,8 @@ public class DepositController extends HttpServlet {
 			} catch (AccountNotFoundException e) {
 				e.getMessage();
 			} catch(ConcurrentModificationException e) {
-				
+				response.sendRedirect("error.jsp");
 			}
 		}
-		
 	}
-
 }

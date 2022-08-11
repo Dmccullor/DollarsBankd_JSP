@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Deposit Success</title>
+<title>Open Savings Success</title>
 </head>
 <body>
-<h1 style="color:green">Deposit Successful!</h1>
+<h1 style="color:green">Savings Account Created!</h1>
 <br>
 <%
-double amount = (Double)request.getAttribute("amount");
-out.println("<p>$" + amount + " has been added to your account.</p>");
+int newID = (Integer)request.getAttribute("newID");
+out.println("<p>Your new savings account ID is " + newID + "</p>");
 %>
 <br>
 <a href="MainMenu.jsp">Back to Main Menu</a>

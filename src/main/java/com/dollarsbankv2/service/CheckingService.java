@@ -10,6 +10,20 @@ import com.dollarsbankv2.model.Checking;
 
 public class CheckingService {
 	
+	private static CheckingService single_instance = null;
+	
+	private CheckingService() {};
+	
+	public static CheckingService getInstance() {
+		
+		if(single_instance == null) {
+			single_instance = new CheckingService();
+		}
+		
+		return single_instance;
+	}
+	
+	
 	private static int idCounter = 1;
 	private static List<Checking> checkingList = new ArrayList<Checking>();
 	

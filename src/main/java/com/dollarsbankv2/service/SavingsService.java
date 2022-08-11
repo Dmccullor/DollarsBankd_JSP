@@ -10,6 +10,19 @@ import com.dollarsbankv2.model.Savings;
 
 public class SavingsService {
 	
+	private static SavingsService single_instance = null;
+	
+	private SavingsService() {};
+	
+	public static SavingsService getInstance() {
+		
+		if(single_instance == null) {
+			single_instance = new SavingsService();
+		}
+		
+		return single_instance;
+	}
+	
 	private static int idCounter = 1;
 	private static List<Savings> savingsList = new ArrayList<Savings>();
 	

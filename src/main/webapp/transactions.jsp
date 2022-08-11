@@ -13,32 +13,38 @@
 <title>Recent Transactions</title>
 </head>
 <body>
-<h1>Recent Transactions</h1>
-<%
-Customer principal = (Customer)session.getAttribute("principal");
-int user_id = principal.getId();
-int counter = 1;
-TransactionService transactionService = new TransactionService();
-
-
-List<Transaction> transactionList = transactionService.findTransactionsByUserId(user_id);
-
-Collections.reverse(transactionList);
-
-Iterator<Transaction> i = transactionList.iterator();
-
-while(counter <= 5 && i.hasNext()) {
-	
-	out.println(i.next());
-	
-	out.println("<br>");
-	
-	counter ++;
-}
-
-%>
-<br>
-<a href="MainMenu.jsp">Back</a>
-
+	<div class="container">
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">Recent Transactions</h1>
+			</div>
+		</div>
+		<%
+		Customer principal = (Customer)session.getAttribute("principal");
+		int user_id = principal.getId();
+		int i = 0;
+		TransactionService transactionService = TransactionService.getInstance();
+		
+		List<Transaction> transactionList = transactionService.findTransactionsByUserId(user_id);
+		
+		Collections.reverse(transactionList);
+		
+		while(transactionList.size() >= (i + 1)) {
+			
+			if(i <= 4) {
+			out.println(transactionList.get(i));
+			
+			out.println("<br>");
+			
+			i++;
+			} else {
+				i++;
+			}
+		}
+		
+		%>
+		<br>
+		<a href="MainMenu.jsp">Back</a>
+	</div>
 </body>
 </html>
