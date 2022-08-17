@@ -39,13 +39,13 @@ public class CustomerController extends HttpServlet {
 			if(cust.isEmpty()) {
 				response.sendRedirect("invalid_credentials.jsp");
 			}
-
-			HttpSession session = request.getSession();
-			session.setAttribute("principal", cust.get());
+			else {
+				HttpSession session = request.getSession();
+				session.setAttribute("principal", cust.get());
+				
+				response.sendRedirect("MainMenu.jsp");
 			
-			response.sendRedirect("MainMenu.jsp");
-			
-		
+			}
 		
 	}
 
