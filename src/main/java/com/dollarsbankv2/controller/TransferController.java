@@ -47,11 +47,11 @@ public class TransferController extends HttpServlet {
 			Type type = Type.TRANSFER;
 			ToAcct toAcct = ToAcct.CHECKING;
 			int savings_id = principal.getSavings_id();
-			double balance = (checkingService.getAccountByUserId(user_id)).getAmount();
+			double balance = (savingsService.getAccountByUserId(user_id)).getAmount();
 			
 			if(principal.getHas_savings() && request.getParameter("acct-type").equals("savings")) {
 				toAcct = ToAcct.SAVINGS;
-				balance = (savingsService.getAccountByUserId(user_id)).getAmount();
+				balance = (checkingService.getAccountByUserId(user_id)).getAmount();
 			}
 			
 			if(amount <= 0) {
