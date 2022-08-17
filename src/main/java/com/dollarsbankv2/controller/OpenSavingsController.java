@@ -39,7 +39,7 @@ public class OpenSavingsController extends HttpServlet {
 			Savings newAcct = savingsService.createAccount(savingsAcct);
 			principal.setSavings_id(newAcct.getId());
 			principal.setHas_savings(true);
-			customerService.updateCustomer(principal);
+			// customerService.updateCustomer(principal);
 			
 			request.setAttribute("newID", newAcct.getId());
 			RequestDispatcher rd = request.getRequestDispatcher("open_savings_success.jsp");
